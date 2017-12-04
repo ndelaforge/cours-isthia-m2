@@ -1,0 +1,38 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:8.0.3
+      container_name: cours-isthia-mysql
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./mysql/:/docker-entrypoint-initdb.d
+      environment:
+        - MYSQL_ROOT_PASSWORD=pwd123
+        - MYSQL_DATABASE=dblp
+        - MYSQL_USER=dblp
+        - MYSQL_PASSWORD=pwd123
+      ports:
+        - "3306:3306"
+
+    webserver:
+      image: nginx:alpine
+      container_name: cours-isthia-webserver
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "9000:80"
+
+    php-fpm:
+      build: phpdocker/php-fpm
+      container_name: cours-isthia-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
