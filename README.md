@@ -1,2 +1,2 @@
-# cours-isthia-m2
-Contenu du cours ISTHIA M2
+# Big Data et Web sémantique
+Support de TP our le cours M2
